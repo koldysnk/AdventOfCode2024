@@ -43,7 +43,7 @@ def reorder(row):
 
     for x in row:
         i = 0
-        while i<len(new_row) and (len(set(new_row[i:]).intersection(afters.get(x,set())))>0 or x in befores.get(new_row[i],set())):
+        while i<len(new_row) and x in befores.get(new_row[i],set()):
             i+=1
 
         new_row.insert(i,x)
@@ -56,6 +56,6 @@ for row in updates:
         row = reorder(row)
         update = row[len(row)//2]
         total+=update
-        print(update,total)
+        #print(update,total)
 
 print(total)

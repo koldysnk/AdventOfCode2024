@@ -11,33 +11,27 @@ def isValid(x,y):
 
 total = 0
 visited = set()
+
+RIGHT = 0
+UP = 1
+DOWN = 
 for y, row in enumerate(data):
     for x, spot in enumerate(row):
         if (x,y) in visited:
             continue
 
         fence_count = 0
-        crop_count = 0
-        need_to_visit = [(x,y)]
+        crop_count = 1
+        next_plot = (x,y,RIGHT)
+        exploring = True
+
         crop_type = data[y][x]
 
-        while len(need_to_visit)>0:
-            nX,nY = need_to_visit.pop()
-            if (nX,nY) in visited:
-                continue
-            visited.add((nX,nY))
+        while exploring:
 
-            fence_count+=4
-            crop_count+=1
-            #(0,-1),(-1,0),
-            for dX,dY in [(0,-1),(-1,0),(0,1),(1,0)]:
-                fX,fY = nX+dX,nY+dY
-                if isValid(fX,fY) and data[fY][fX] == crop_type:
-                    fence_count -= 1
-                    need_to_visit.append((fX,fY))
 
-        print(f"Fences: {fence_count} Crops: {crop_count}")
-        total +=fence_count*crop_count
+
+        
 
 
 

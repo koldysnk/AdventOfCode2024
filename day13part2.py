@@ -64,3 +64,43 @@ for prize in data:
     total += cost*winnable
 
 print(total)
+
+
+
+'''
+    for b in range(0,xG//bX+1):
+        if b == 40:
+            pass
+        dX = b*bX
+        diff = xG-dX
+        aRem = diff%aX
+        if aRem == 0:
+            a = diff/aX
+            if yG == a*aY + b*bY:
+                cost = min(cost,a*a_cost+b*b_cost)
+                winnable = True
+    
+    dividend = (change+xG)//xG
+    sub_total += cost*(dividend)
+
+    if not winnable:
+        continue
+
+    xG = (change+xG)%xG
+    yG = (change+yG)%yG
+    cost = 999999999999999999999999999999999999
+    winnable = False
+
+    for b in range(0,xG//bX+1):
+        if b == 40:
+            pass
+        dX = b*bX
+        diff = xG-dX
+        aRem = diff%aX
+        if aRem == 0:
+            a = diff/aX
+            if yG == a*aY + b*bY:
+                cost = min(cost,a*a_cost+b*b_cost)
+                winnable = True
+
+    total += winnable*(cost+sub_total)'''

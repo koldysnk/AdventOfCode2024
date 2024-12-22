@@ -1,7 +1,7 @@
 import bisect
 import numpy as np
 
-grid = [list(line.strip()) for line in open("data/day16.txt","r").readlines()]
+grid = [list(line.strip()) for line in open("data/day16sampleB.txt","r").readlines()]
 
 sX,sY = 0,0
 eX,eY = 0,0
@@ -46,13 +46,26 @@ def displayPath(path):
 
 best_path = set()
 scores = []
-best_score =  99448
+best_score =  11048#99448
+count=0
+best_spots = {}
+
 while len(q)>0:
-    x,y,direction,path,score,prediction = q.pop(0)
+    count+=1
+    x,y,direction,path,score,prediction = q.pop()
     str_spot = f".{x},{y}."
 
     if str_spot in path or not validSpot(x,y) or prediction>best_score:
         continue
+
+    #if str_spot in best_spots:
+    #    if score>best_spots[str_spot]:
+    #        continue
+    #    else:
+    #        best_spots[str_spot] = score
+    #else:
+    #    best_spots[str_spot] = score
+
 
     path += f"{str_spot}"
     #displayPath(path)
@@ -99,14 +112,18 @@ while len(q)>0:
             continue
         pred = step[-1]
         added=False
-        for i in range(len(q)):
-            compare = q[i]
-            if pred<q[i][-1]:
-                q.insert(i, step)
-                added = True
-                break
-        if not added:
-            q.append(step)
+        i=0
+        while i<len(q) and pred<q[i][-1]:
+            i+=1
+        q.insert(i,step)
+        #for i in range(len(q)):
+        #    compare = q[i]
+        #    if pred<q[i][-1]:
+        #        q.insert(i, step)
+        #        added = True
+        #        break
+        #if not added:
+        #    q.append(step)
         
 
 displayPath(best_path)
@@ -114,6 +131,7 @@ displayPath(best_path)
 print()
 print(min(scores))
 print(len(best_path))
+print(count)
 #9837 is too high
 
 

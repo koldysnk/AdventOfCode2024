@@ -23,7 +23,7 @@ for y,row in enumerate(grid):
 
 q = []
 #x,y,direction,path,score
-q.append((sX,sY,2,set(),0,0))
+q.append((sX,sY,2,"",0,0))
 UP = 1
 RIGHT = 2
 DOWN = 3
@@ -32,6 +32,9 @@ LEFT = 4
 def validSpot(x,y):
     return x>=0 and y>=0 and x<len(grid[0]) and y<len(grid) and grid[y][x] != "#"
 def displayPath(path):
+    if type(path) is str:
+        path = [tuple([int(pos) for pos in spot.replace('.','').split(",")]) for spot in path.split("..")]
+
     for y,row in enumerate(grid):
         for x, spot in enumerate(row):
             if (x,y) in path:
@@ -43,15 +46,17 @@ def displayPath(path):
 
 best_path = set()
 scores = []
-best_score =  11048
+best_score =  99448
 while len(q)>0:
     x,y,direction,path,score,prediction = q.pop(0)
+    str_spot = f".{x},{y}."
 
-    if (x,y) in path or not validSpot(x,y) or prediction>best_score:
+    if str_spot in path or not validSpot(x,y) or prediction>best_score:
         continue
 
-    path.add((x,y))
+    path += f"{str_spot}"
     #displayPath(path)
+    #input()
 
     if grid[y][x] == "E":
         if len(scores)>0 and score>scores[-1]:
@@ -59,7 +64,7 @@ while len(q)>0:
             break
         scores.append(score)
         print(score)
-        for element in path:
+        for element in [tuple([int(pos) for pos in spot.replace('.','').split(",")]) for spot in path.split("..")]:
             best_path.add(element)
 
         continue
@@ -73,10 +78,15 @@ while len(q)>0:
     c=score+1000*(direction!=DOWN)
     d=score+1000*(direction!=LEFT)
 
-    e=a+abs(eX-x)+abs(eY-y+1)+(min(abs(eX-x),abs(eY-y+1)))-1*1000
-    f=b+abs(eX-x-1)+abs(eY-y)+(min(abs(eX-x-1),abs(eY-y)))-1*1000
-    g=c+abs(eX-x)+abs(eY-y-1)+(min(abs(eX-x),eY-y-1))-1*1000
-    h=d+abs(eX-x+1)+abs(eY-y)+(min(abs(eX-x+1),eY-y))-1*1000
+    e=a+abs(eX-x)+abs(eY-(y-1))
+    f=b+abs(eX-(x+1))+abs(eY-y)
+    g=c+abs(eX-x)+abs(eY-(y+1))
+    h=d+abs(eX-(x-1))+abs(eY-y)
+
+    #e+=(min(abs(eX-x),abs(eY-(y-1))))*1000
+    #f+=(min(abs(eX-(x+1)),abs(eY-y)))*1000
+    #g+=(min(abs(eX-x),eY-(y+1)))*1000
+    #h+=(min(abs(eX-(x-1)),eY-y))*1000
     steps = [
         (x,y-1,UP,path,   a,e),
         (x+1,y,RIGHT,path,b,f),
